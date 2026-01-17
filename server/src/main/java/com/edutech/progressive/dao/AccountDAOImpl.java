@@ -10,7 +10,6 @@ public class AccountDAOImpl implements AccountDAO{
     @Override
     public int addAccount(Accounts accounts) {
         return -1;
-        
     }
 
     @Override
