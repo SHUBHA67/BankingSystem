@@ -2,7 +2,7 @@ package com.edutech.progressive.entity;
 import java.util.Date;
 
 public class Transactions {
-
+    
     private int transactionId;
     private int accountId;
     private double amount;
