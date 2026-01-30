@@ -14,13 +14,13 @@ public interface TransactionRepository extends JpaRepository<Transactions, Integ
 
     List<Transactions> findByAccountsAccountId(int accountId);
 
-    // @Modifying
-    // @Transactional
-    // @Query("DELETE FROM Transactions tr WHERE tr.accounts.accountId = :accountId")
-    // void deleteByAccountId(@Param("accountId") int accountId);
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Transactions tr WHERE tr.accounts.accountId = :accountId")
+    void deleteByAccountId(@Param("accountId") int accountId);
 
-    // @Modifying
-    // @Transactional
-    // @Query("DELETE FROM Transactions tr WHERE tr.accounts.accountId in (Select acc.accountId from Accounts acc WHERE acc.customer.customerId = :customerId)")
-    // void deleteByCustomerId(@Param("customerId") int customerId);
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Transactions tr WHERE tr.accounts.accountId in (Select acc.accountId from Accounts acc WHERE acc.customer.customerId = :customerId)")
+    void deleteByCustomerId(@Param("customerId") int customerId);
 }

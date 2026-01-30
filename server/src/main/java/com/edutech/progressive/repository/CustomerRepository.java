@@ -12,7 +12,7 @@ public interface CustomerRepository extends JpaRepository<Customers, Integer> {
 
     void deleteByCustomerId(int customerId);
 
-    // Customers findByEmail(@Param("email") String email);
+    Customers findByEmail(@Param("email") String email);
 
-    // Customers findByUsername(String username);
+    Customers findByUsername(String username);
 }
