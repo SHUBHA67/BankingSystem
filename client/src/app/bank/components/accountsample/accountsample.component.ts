@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AccountTS } from '../../types/tstypes/Accountts';
 
 @Component({
   selector: 'app-accountsample',
@@ -8,5 +9,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./accountsample.component.css']
 })
 export class AccountsampleComponent {
+  account:any = new AccountTS("1",50,"4");
+  constructor(){}
 
 }
