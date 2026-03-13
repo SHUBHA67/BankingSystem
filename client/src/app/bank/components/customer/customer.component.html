@@ -1,0 +1,56 @@
+<div class="customer-form">
+  <h2>Create New Customer</h2>
+
+  <!-- Optional success/error messages via observables (if later wired) -->
+  <div *ngIf="customerSuccess$ | async as success" class="alert alert-success">
+    {{ success }}
+  </div>
+  <div *ngIf="customerError$ | async as error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
+
+    <!-- Name -->
+    <div>
+      <label for="name">Name</label>
+      <input id="name" type="text" formControlName="name" />
+      <div class="error" *ngIf="f['name'].touched && f['name'].invalid">
+        Name is required.
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div>
+      <label for="email">Email</label>
+      <input id="email" type="email" formControlName="email" />
+      <div class="error" *ngIf="f['email'].touched && f['email'].invalid">
+        <span *ngIf="f['email'].errors?.['required']">Email is required.</span>
+        <span *ngIf="f['email'].errors?.['email']">Enter a valid email.</span>
+      </div>
+    </div>
+
+    <!-- Username -->
+    <div>
+      <label for="username">Username</label>
+      <input id="username" type="text" formControlName="username" />
+      <div class="error" *ngIf="f['username'].touched && f['username'].invalid">
+        Username is required.
+      </div>
+    </div>
+
+    <!-- Password -->
+    <div>
+      <label for="password">Password</label>
+      <input id="password" type="password" formControlName="password" />
+      <div class="error" *ngIf="f['password'].touched && f['password'].invalid">
+        <span *ngIf="f['password'].errors?.['required']">Password is required.</span>
+        <span *ngIf="f['password'].errors?.['minlength']">Min length is 6.</span>
+      </div>
+    </div>
+
+    <button type="submit">Submit</button>
+    <a routerLink="/dashboard" style="margin-left: 1rem;">Back to Dashboard</a>
+  </form>
+</div>
+``
