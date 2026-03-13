@@ -5,8 +5,14 @@ import { BankRoutingModule } from "./bank-routing.module";
 import { ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 
+// ⬇️ Import the component the tests look for
+import { CustomersComponent } from "./components/customer/customer.component";
+
 @NgModule({
-  declarations: [],
+  declarations: [
+    // ⬇️ Declare it here
+    CustomersComponent
+  ],
   imports: [
     CommonModule,
     BankRoutingModule,
@@ -14,7 +20,8 @@ import { HttpClientModule } from "@angular/common/http";
     HttpClientModule,
   ],
   exports: [
-    
+    // (Optional) export if referenced by other modules
+    CustomersComponent
   ]
 })
 export class BankModule {}
