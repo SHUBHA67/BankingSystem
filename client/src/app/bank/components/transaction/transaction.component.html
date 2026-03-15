@@ -1,4 +1,4 @@
-<app-navbar></app-navbar>
+<!-- <app-navbar></app-navbar>
  
 <h2 style="text-align: center">Make a Transaction</h2>
 <form
@@ -28,7 +28,7 @@
     <input type="radio" id="transaction_type" formControlName="transactionType" value="credit" /> Credit
     <input type="radio" id="transaction_type" formControlName="transactionType" value="debit"/> Debit
   </div>
-  <!-- <input type="hidden" [value]="new Date()"/> -->
+  <input type="hidden" [value]="new Date()"/>
  
   <button type="submit" class="btn-submit">Submit</button>
   <ng-container>
@@ -41,6 +41,33 @@
   </ng-container>
   <a routerLink="/bank" class="task-list" class="task-list">Dashboard</a>
  
+</form> -->
+<app-navbar></app-navbar>
+<h2 style="text-align: center">Make a Transaction</h2>
+<form (ngSubmit)="onSubmit()" [formGroup]="transactionForm" class="transaction-form">
+  <div class="form-group">
+    <label for="accountId">Account:</label>
+    <select formControlName="accountId">
+      <option value="">Select Account</option>
+      <option *ngFor="let account of accounts" [ngValue]="account">
+        {{ account.accountId }}
+        </option>
+      </select>
+    </div>
+  <div class="form-group">
+    <label for="amount">Amount:</label>
+    <input type="number" id="amount" formControlName="amount" />
+    </div>
+  <div class="form-group">
+    <label for="transactionType">Transaction Type:</label>
+    <input type="radio" formControlName="transactionType" value="credit" /> Credit
+    <input type="radio" formControlName="transactionType" value="debit" /> Debit
+    </div>
+  <input type="hidden" formControlName="transactionDate" />
+  <button type="submit" class="btn-submit">Submit</button>
+  <ng-container>
+    <div *ngIf="transactionError" class="error">{{ transactionError }}</div>
+    <div *ngIf="transactionSuccess" class="success">{{ transactionSuccess }}</div>
+    </ng-container>
+  <a routerLink="/bank" class="task-list">Dashboard</a>
 </form>
- 
- 

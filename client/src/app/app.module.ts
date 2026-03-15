@@ -4,13 +4,13 @@ import { BrowserModule } from "@angular/platform-browser";
 import { EffectsModule } from "@ngrx/effects";
 import { StoreModule } from "@ngrx/store";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
-import { environment } from "/home/coder/app/client/src/environments/environment";
+import { environment } from "../environments/environment";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { AuthInterceptor } from "./auth.interceptors";
-// import { NavBarComponent } from "./navbar/navbar.component"; // Correct the case here
+
 @NgModule({
-  declarations: [AppComponent], // Correct the case here
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -18,8 +18,8 @@ import { AuthInterceptor } from "./auth.interceptors";
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({
-      maxAge: 25, // Retains last 25 states
-      logOnly: environment.production, // Restrict extension to log-only mode
+      maxAge: 25,
+      logOnly: environment.production,
     }),
   ],
   providers: [
@@ -31,4 +31,4 @@ import { AuthInterceptor } from "./auth.interceptors";
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

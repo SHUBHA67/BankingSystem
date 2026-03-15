@@ -1,4 +1,4 @@
-<form (ngSubmit)="onSubmit()" [formGroup]="customerForm" class="user-form">
+<!-- <form (ngSubmit)="onSubmit()" [formGroup]="customerForm" class="user-form">
   <div class="form-group">
     <label for="userId">Name:</label>
     <input
@@ -54,4 +54,30 @@
   </ng-container>
  
   <a routerLink="/bank" class="task-list" class="task-list">Dashboard</a>
+</form> 
+
+Below Day 21-->
+<form (ngSubmit)="onSubmit()" [formGroup]="customerForm" class="user-form">
+  <div class="form-group">
+    <label for="name">Name:</label>
+    <input type="text" id="name" formControlName="name" class="form-control" />
+  </div>
+  <div class="form-group">
+    <label for="email">Email:</label>
+    <input type="email" id="email" formControlName="email" class="form-control" />
+  </div>
+  <div class="form-group">
+    <label for="username">User Name:</label>
+    <input type="text" id="username" formControlName="username" class="form-control" />
+  </div>
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input type="password" id="password" formControlName="password" class="form-control" />
+  </div>
+  <button type="submit" class="btn-submit">Create Customer</button>
+  <ng-container>
+    <div *ngIf="customerError" class="error">{{ customerError }}</div>
+    <div *ngIf="customerSuccess" class="success">{{ customerSuccess }}</div>
+  </ng-container>
+  <a routerLink="/bank" class="task-list">Dashboard</a>
 </form>

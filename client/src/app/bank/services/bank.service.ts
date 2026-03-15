@@ -1,14 +1,9 @@
 import { Injectable } from "@angular/core";
-import { environment } from "/home/coder/app/client/src/environments/environment";
-import { HttpClient } from "@angular/common/http";
+import { environment } from "../../../environments/environment";
 import { Transaction } from "../types/Transaction";
 import { Account } from "../types/Account";
-
-//import { Transaction } from "../types/Transaction";
-import { Observable } from "rxjs";
-import { Customer } from "/home/coder/app/client/src/app/bank/types/Customer";
-//import { Account } from "../types/Account";
-// import { transition } from "@angular/animations";
+import { from, Observable } from "rxjs";
+import { Customer } from "../types/Customer";
 
 @Injectable({
   providedIn: "root",
@@ -16,85 +11,98 @@ import { Customer } from "/home/coder/app/client/src/app/bank/types/Customer";
 export class BankService {
   private baseUrl = `${environment.apiUrl}`;
 
-  constructor(private http: HttpClient) {}
+  private authHeaders(): HeadersInit {
+    return {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    };
+  }
+
+  private get<T>(path: string): Observable<T> {
+    return from(
+      fetch(`${this.baseUrl}${path}`, { headers: this.authHeaders() })
+        .then(r => r.json())
+    );
+  }
+
+  private post<T>(path: string, body: any): Observable<T> {
+    return from(
+      fetch(`${this.baseUrl}${path}`, {
+        method: "POST",
+        headers: this.authHeaders(),
+        body: JSON.stringify(body),
+      }).then(r => r.json())
+    );
+  }
+
+  private put<T>(path: string, body: any): Observable<T> {
+    return from(
+      fetch(`${this.baseUrl}${path}`, {
+        method: "PUT",
+        headers: this.authHeaders(),
+        body: JSON.stringify(body),
+      }).then(r => r.json())
+    );
+  }
+
+  private del<T>(path: string): Observable<T> {
+    return from(
+      fetch(`${this.baseUrl}${path}`, {
+        method: "DELETE",
+        headers: this.authHeaders(),
+      }).then(r => (r.status === 204 ? null : r.json()))
+    );
+  }
 
   addCustomer(customer: Customer): Observable<Customer> {
-    return this.http.post<Customer>(`${this.baseUrl}/customers`, customer);
+    return this.post<Customer>("/customers", customer);
   }
 
   getCustomers(): Observable<Customer[]> {
-    return this.http.get<Customer[]>(
-      `${this.baseUrl}/customers`
-    );
-
+    return this.get<Customer[]>("/customers");
   }
 
   addAccount(account: Account): Observable<Account> {
-    return this.http.post<Account>(`${this.baseUrl}/accounts`, account);
+    return this.post<Account>("/accounts", account);
   }
 
   getAccounts(): Observable<Account[]> {
-    return this.http.get<Account[]>(
-      `${this.baseUrl}/accounts`
-    );
-
+    return this.get<Account[]>("/accounts");
   }
 
   performTransaction(transaction: Transaction): Observable<Transaction> {
-    return this.http.post<Transaction>(
-      `${this.baseUrl}/transactions`,
-      transaction
-    );
+    return this.post<Transaction>("/transactions", transaction);
   }
 
   getOutstandingBalance(userId: string): Observable<number> {
-    return this.http.get<number>(
-      `${this.baseUrl}/out-standing?userId=${userId}`
-    );
-
+    return this.get<number>(`/out-standing?userId=${userId}`);
   }
 
   getAllTranactions(): Observable<Transaction[]> {
-    return this.http.get<Transaction[]>(
-      `${this.baseUrl}/transactions`
-    );
-
-  }
-  /** get account by user */
-  getAccountsByUser(userId:string|null): Observable<Account[]> {
-    return this.http.get<Account[]>(
-      `${this.baseUrl}/accounts/user/${userId}`
-    );
-
+    return this.get<Transaction[]>("/transactions");
   }
 
-  getTransactionByUser(userId: string|null): Observable<Transaction[]> {
-    return this.http.get<Transaction[]>(
-      `${this.baseUrl}/transactions/customer/${userId}`
-    );
+  getAccountsByUser(userId: string | null): Observable<Account[]> {
+    return this.get<Account[]>(`/accounts/user/${userId}`);
+  }
 
+  getTransactionByUser(userId: string | null): Observable<Transaction[]> {
+    return this.get<Transaction[]>(`/transactions/customer/${userId}`);
   }
 
   deleteCustomer(customerId: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/customers/${customerId}`);
+    return this.del(`/customers/${customerId}`);
   }
 
   editCustomer(customer: Customer): Observable<Customer> {
-    console.log(customer);
-    const url = `${this.baseUrl}/customers/${customer.customerId}`;
-    return this.http.put<Customer>(url, customer);
+    return this.put<Customer>(`/customers/${customer.customerId}`, customer);
   }
- 
 
   deleteAccount(accountId: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/accounts/${accountId}`);
+    return this.del(`/accounts/${accountId}`);
   }
 
   editAccount(account: Account): Observable<Account> {
-    console.log(account);
-    const url = `${this.baseUrl}/accounts/${account.customer?.customerId}`;
-    return this.http.put<Account>(url, account);
+    return this.put<Account>(`/accounts/${account.customer?.customerId}`, account);
   }
-
-
 }

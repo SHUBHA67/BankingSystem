@@ -1,4 +1,4 @@
-<app-navbar></app-navbar>
+<!-- <app-navbar></app-navbar>
 
 
 <form (ngSubmit)="onSubmit()" [formGroup]="accountForm" class="user-form">
@@ -34,4 +34,32 @@
   </ng-container>
 
   <a routerLink="/bank" class="task-list" class="task-list">Dashboard</a>
+</form>
+
+BELOW dAY 21-->
+<app-navbar></app-navbar>
+<form (ngSubmit)="onSubmit()" [formGroup]="accountForm" class="user-form">
+  <div class="form-group">
+    <label for="accountId">Account ID:</label>
+    <input type="number" id="accountId" formControlName="accountId" class="form-control" />
+    </div>
+  <div class="form-group">
+    <label for="customerId">Customer:</label>
+    <select id="customerId" formControlName="customerId">
+      <option value="">Select a Customer</option>
+      <option *ngFor="let customer of customers" [ngValue]="customer.customerId">
+        {{ customer.name }}
+        </option>
+      </select>
+    </div>
+  <div class="form-group">
+    <label for="balance">Balance:</label>
+    <input type="text" id="balance" formControlName="balance" class="form-control" />
+    </div>
+  <button type="submit" class="btn-submit">Create Account</button>
+  <ng-container>
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success">{{ successMessage }}</div>
+    </ng-container>
+  <a routerLink="/bank" class="task-list">Dashboard</a>
 </form>
