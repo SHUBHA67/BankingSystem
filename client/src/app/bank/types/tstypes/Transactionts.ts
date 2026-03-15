@@ -1,10 +1,9 @@
 export class TransactionTS {
-
-     transactionId?: number;
+    transactionId?: number;
     accountId: string;
-    amount: number;
-    transactionDate: Date;
-    transactionType:string="";
+  amount: number;
+  transactionDate: Date;
+   transactionType:string="";
 
     constructor(accountId: string, amount: number, transactionDate: Date, transactionId?:number) {
         this.transactionId = transactionId;
@@ -21,9 +20,6 @@ export class TransactionTS {
         console.log("------");
     }
 }
-  
+
 const transaction = new TransactionTS("1", 50.00, new Date(),1);
 transaction.displayInfo();
-  
-
-   
