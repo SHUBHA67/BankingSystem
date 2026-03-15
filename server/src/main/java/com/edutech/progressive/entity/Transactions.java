@@ -88,6 +88,7 @@ public class Transactions {
 
     public Transactions(int transactionId, int accountId, double amount, Date timestamp, String transactionType) {
         this.transactionId = transactionId;
+        this.accounts=new Accounts();
         this.accounts.setAccountId(accountId);
         this.amount = amount;
         this.transactionDate = timestamp;
@@ -133,5 +134,9 @@ public class Transactions {
 
     public void setTransactionType(String transactionType) {
         this.transactionType = transactionType;
+    }
+
+    public int getAccountId(){
+        return accounts.getAccountId();
     }
 }

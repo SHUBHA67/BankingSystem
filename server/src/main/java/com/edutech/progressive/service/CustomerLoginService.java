@@ -1,6 +1,5 @@
 package com.edutech.progressive.service;
 
-
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -10,7 +9,6 @@ import com.edutech.progressive.repository.CustomerRepository;
 
 import java.util.List;
 import java.util.Optional;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,20 +37,18 @@ public class CustomerLoginService implements UserDetailsService {
         return customerRepository.findAll();
     }
 
-    
-
     public Optional<Customers> getUserById(Integer userId) {
         return customerRepository.findById(userId);
     }
-    public Customers getUserByName(String useString)
-    {
+
+    public Customers getUserByName(String useString) {
         Customers oldUser = customerRepository.findByUsername(useString);
         return oldUser;
     }
+
     public Customers createUser(Customers user) {
         Customers oldUser = customerRepository.findByUsername(user.getUsername());
-        if(oldUser != null)
-        {
+        if (oldUser != null) {
             throw new CustomerAlreadyExistsException("User name Is Unavailable: " + user.getUsername());
 
         }
@@ -60,13 +56,12 @@ public class CustomerLoginService implements UserDetailsService {
         return customerRepository.save(user);
     }
 
-    // 
+    //
     public Customers updateUser(Customers user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
- 
+
         return customerRepository.save(user);
     }
- 
 
     public void deleteUser(Integer id) {
         customerRepository.deleteById(id);
@@ -76,43 +71,39 @@ public class CustomerLoginService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Customers user = customerRepository.findByUsername(username);
         if (user == null) {
-            throw new UsernameNotFoundException("User not found");
+            throw new UsernameNotFoundException("User not found: " + username);
         }
-
         return new org.springframework.security.core.userdetails.User(
-                user.getUsername(),
-                user.getPassword(),
-                new ArrayList<>()
-        );
+                user.getUsername(), user.getPassword(), new ArrayList<>());
     }
 }
 // public class CustomerLoginService implements UserDetailsService {
 
-//     public List<Customers> getAllCustomers() {
-//         return null;
-//     }
+// public List<Customers> getAllCustomers() {
+// return null;
+// }
 
-//     public Optional<Customers> getCustomerById(Integer customer) {
-//         return null;
-//     }
-//     public Customers getCustomerByName(String name)
-//     {
-//         return null;
-//     }
-//     public Customers createCustomer(Customers customer) {
-//         return null;
-//     }
+// public Optional<Customers> getCustomerById(Integer customer) {
+// return null;
+// }
+// public Customers getCustomerByName(String name)
+// {
+// return null;
+// }
+// public Customers createCustomer(Customers customer) {
+// return null;
+// }
 
-//     public Customers updateCustomer(Customers customer) {
-//         return null;
-//     }
+// public Customers updateCustomer(Customers customer) {
+// return null;
+// }
 
-//     public void deleteUser(Integer id) {
+// public void deleteUser(Integer id) {
 
-//     }
+// }
 
-//     @Override
-//     public UserDetails loadUserByUsername(String username) {
-//         return null;
-//     }
+// @Override
+// public UserDetails loadUserByUsername(String username) {
+// return null;
+// }
 // }

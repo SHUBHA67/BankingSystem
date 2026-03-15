@@ -75,6 +75,7 @@ public class Accounts implements Comparable<Accounts> {
 
     public Accounts(int accountId, int customerId, double balance) {
         this.accountId = accountId;
+        this.customer = new Customers();
         this.customer.setCustomerId(customerId);
         this.balance=balance;
     }
@@ -102,6 +103,14 @@ public class Accounts implements Comparable<Accounts> {
 
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    public int getCustomerId(){
+        return customer.getCustomerId();
+    }
+
+    public void setCustomerId(int customerId){
+        this.customer.setCustomerId(customerId);
     }
 
     @Override

@@ -6,8 +6,9 @@ import java.util.Collections;
 import java.util.List;
 
 import com.edutech.progressive.entity.Accounts;
+import com.edutech.progressive.service.AccountService;
 
-public class AccountServiceImplArraylist {
+public class AccountServiceImplArraylist implements AccountService {
 
     private List<Accounts> accountList = new ArrayList<>();
 

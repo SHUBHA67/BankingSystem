@@ -41,7 +41,7 @@ public class LoginResponse {
       this.userId=userId;
    }
 
-   public long getUserId()
+   public Integer getUserId()
    {
       return this.userId;
    }

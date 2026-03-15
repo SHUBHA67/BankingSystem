@@ -23,7 +23,8 @@ public class CustomerServiceImplJpa implements CustomerService {
     private final CustomerRepository customerRepository;
 
     @Autowired
-    public CustomerServiceImplJpa( CustomerRepository customerRepository,PasswordEncoder passwordEncoder,TransactionRepository transactionRepository,AccountRepository accountRepository) {
+    public CustomerServiceImplJpa(CustomerRepository customerRepository, PasswordEncoder passwordEncoder,
+            TransactionRepository transactionRepository, AccountRepository accountRepository) {
         this.passwordEncoder = passwordEncoder;
         this.transactionRepository = transactionRepository;
         this.accountRepository = accountRepository;
@@ -34,8 +35,6 @@ public class CustomerServiceImplJpa implements CustomerService {
     public List<Customers> getAllCustomers() throws SQLException {
         return customerRepository.findAll();
     }
-
-    
 
     @Override
     public Customers getCustomerById(int customerId) throws SQLException {
@@ -54,36 +53,36 @@ public class CustomerServiceImplJpa implements CustomerService {
             throw new CustomerAlreadyExistsException(
                     "Customer with give username already exists : " + customers.getUsername());
         }
+        if (customers.getRole() == null || customers.getRole().isBlank()) {
+            customers.setRole("USER"); // set default role
+        }
         customers.setPassword(passwordEncoder.encode(customers.getPassword()));
         return customerRepository.save(customers).getCustomerId();
 
-        
-       
     }
 
     @Override
     public void updateCustomer(Customers customers) throws SQLException {
-        Customers existingCustomer =
-        customerRepository.findByEmail(customers.getEmail());
-        if (existingCustomer != null && customers.getCustomerId() !=
-        existingCustomer.getCustomerId()) {
-        throw new CustomerAlreadyExistsException("Customer with give email already exists : " + customers.getEmail());
+        Customers existingCustomerByEmail = customerRepository.findByEmail(customers.getEmail());
+        if (existingCustomerByEmail != null && customers.getCustomerId() != existingCustomerByEmail.getCustomerId()) {
+            throw new CustomerAlreadyExistsException(
+                    "Customer with given email already exists: " + customers.getEmail());
         }
-        Customers oldUser =
-        customerRepository.findByUsername(customers.getUsername());
-        if (oldUser != null && customers.getCustomerId() != oldUser.getCustomerId())
-        {
-        throw new CustomerAlreadyExistsException("Customer with give username already exists : " + customers.getUsername());
+        Customers oldUser = customerRepository.findByUsername(customers.getUsername());
+        if (oldUser != null && customers.getCustomerId() != oldUser.getCustomerId()) {
+            throw new CustomerAlreadyExistsException(
+                    "Customer with given username already exists: " + customers.getUsername());
         }
-        if (!customers.getRole().isBlank()) {
-        if (!existingCustomer.getPassword().equals(customers.getPassword())) {
-        customers.setPassword(passwordEncoder.encode(customers.getPassword()));
+        if (customers.getRole() == null || customers.getRole().isBlank()) {
+            throw new SQLException("Role for a customer cannot be empty");
+        }
+        // Fetch the existing record to compare password
+        Customers existingCustomer = customerRepository.findByCustomerId(customers.getCustomerId());
+        if (existingCustomer != null && !existingCustomer.getPassword().equals(customers.getPassword())) {
+            customers.setPassword(passwordEncoder.encode(customers.getPassword()));
         }
         customerRepository.save(customers);
-        } else {
-        throw new SQLException("Role for a customer cannot be empty");
-        }
-       
+
     }
 
     @Override
