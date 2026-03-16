@@ -1,4 +1,4 @@
-
+<!-- 
 <app-navbar></app-navbar>
 
 <div class="table-container" *ngIf="role !== 'USER'">
@@ -78,4 +78,63 @@
       </tr>
     </tbody>
   </table>
+</div>
+
+Day 23 below ---------------->
+
+<div class="dashboard">
+
+  <div *ngIf="role === 'ADMIN'">
+    <h2>Customers</h2>
+    <table>
+      <tr *ngFor="let customer of customers">
+        <td>{{ customer.customerId }}</td>
+        <td>{{ customer.name }}</td>
+        <td>{{ customer.email }}</td>
+        <td>
+          <button (click)="editCustomer(customer)">Edit</button>
+          <button (click)="deleteCustomer(customer.customerId)">Delete</button>
+          </td>
+        </tr>
+      </table>
+
+    <h2>Accounts</h2>
+    <table>
+      <tr *ngFor="let account of accounts">
+        <td>{{ account.accountId }}</td>
+        <td>{{ account.balance }}</td>
+        <td>
+          <button (click)="editAccount(account)">Edit</button>
+          <button (click)="deleteAccount(account.accountId)">Delete</button>
+          </td>
+        </tr>
+      </table>
+
+    <h2>Transactions</h2>
+    <table>
+      <tr *ngFor="let transaction of transactions">
+        <td>{{ transaction.transactionId }}</td>
+        <td>{{ transaction.amount }}</td>
+        </tr>
+      </table>
+    </div>
+
+  <div *ngIf="role !== 'ADMIN'">
+    <h2>My Accounts</h2>
+    <table>
+      <tr *ngFor="let account of accounts">
+        <td>{{ account.accountId }}</td>
+        <td>{{ account.balance }}</td>
+        </tr>
+      </table>
+
+    <h2>My Transactions</h2>
+    <table>
+      <tr *ngFor="let transaction of transactions">
+        <td>{{ transaction.transactionId }}</td>
+        <td>{{ transaction.amount }}</td>
+        </tr>
+      </table>
+    </div>
+
 </div>

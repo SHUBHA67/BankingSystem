@@ -105,4 +105,22 @@ export class BankService {
   editAccount(account: Account): Observable<Account> {
     return this.put<Account>(`/accounts/${account.customer?.customerId}`, account);
   }
+
+
+// Aliases used by Dashboard and Account components (day_23+)
+getAllCustomers(): Observable < Customer[] > {
+  return this.get<Customer[]>("/customers");
+}
+
+getAllAccounts(): Observable < Account[] > {
+  return this.get<Account[]>("/accounts");
+}
+
+getCustomerById(customerId: number): Observable < Customer > {
+  return this.get<Customer>(`/customers/${customerId}`);
+}
+
+getAccountById(accountId: number): Observable < Account > {
+  return this.get<Account>(`/accounts/${accountId}`);
+}
 }

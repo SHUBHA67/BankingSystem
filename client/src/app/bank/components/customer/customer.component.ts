@@ -85,8 +85,64 @@
 // }
 
 /// Below Day 21-----------------
+// import { Component, OnInit } from "@angular/core";
+// import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from "@angular/forms";
+
+// function noSpecialCharacters(control: AbstractControl): ValidationErrors | null {
+//   const specialCharactersRegex = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/;
+//   if (control.value && specialCharactersRegex.test(control.value)) {
+//     return { specialCharacters: true };
+//   }
+//   return null;
+// }
+
+// @Component({
+//   selector: "app-customer",
+//   templateUrl: "./customer.component.html",
+//   styleUrls: ["./customer.component.scss"],
+// })
+// export class CustomersComponent implements OnInit {
+//   customerForm: FormGroup = this.formBuilder.group({});
+//   customerError: string = "";
+//   customerSuccess: string = "";
+//   isFormSubmitted: boolean = false;
+
+//   constructor(private formBuilder: FormBuilder) { }
+
+//   ngOnInit(): void {
+//     this.customerForm = this.formBuilder.group({
+//       name: ["", [Validators.required]],
+//       email: ["", [Validators.required]],
+//       username: ["", [Validators.required, noSpecialCharacters]],
+//       password: ["", [Validators.required]],
+//     });
+//   }
+
+//   onSubmit(): void {
+//     this.isFormSubmitted = true;
+//     this.customerError = "";
+//     this.customerSuccess = "";
+
+//     if (this.customerForm.invalid) {
+//       this.customerError = "Please fill out all required fields correctly.";
+//       return;
+//     }
+
+//     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+//     if (!emailRegex.test(this.customerForm.get("email")?.value)) {
+//       this.customerError = "Please correct the errors in the form.";
+//       return;
+//     }
+
+//     this.customerSuccess = "Customer created successfully";
+//   }
+// }
+
+// ----------------------Day 23 below------------------------
+
 import { Component, OnInit } from "@angular/core";
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from "@angular/forms";
+import { BankService } from "../../services/bank.service";
 
 function noSpecialCharacters(control: AbstractControl): ValidationErrors | null {
   const specialCharactersRegex = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/;
@@ -107,7 +163,10 @@ export class CustomersComponent implements OnInit {
   customerSuccess: string = "";
   isFormSubmitted: boolean = false;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private bankService: BankService
+  ) { }
 
   ngOnInit(): void {
     this.customerForm = this.formBuilder.group({
@@ -115,6 +174,7 @@ export class CustomersComponent implements OnInit {
       email: ["", [Validators.required]],
       username: ["", [Validators.required, noSpecialCharacters]],
       password: ["", [Validators.required]],
+      role: ["", [Validators.required]],
     });
   }
 
@@ -134,6 +194,8 @@ export class CustomersComponent implements OnInit {
       return;
     }
 
-    this.customerSuccess = "Customer created successfully";
+    this.bankService.addCustomer(this.customerForm.value).subscribe(() => {
+      this.customerSuccess = "Customer created successfully";
+    });
   }
 }

@@ -92,8 +92,47 @@
 // }
 
 //----------Below Day 21---------------------------
+// import { Component, OnInit } from "@angular/core";
+// import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+
+// @Component({
+//   selector: "app-account",
+//   templateUrl: "./account.component.html",
+//   styleUrls: ["./account.component.scss"],
+// })
+// export class AccountComponent implements OnInit {
+//   accountForm: FormGroup = this.formBuilder.group({});
+//   successMessage: string = "";
+//   errorMessage: string = "";
+//   customers: any[] = [];
+
+//   constructor(private formBuilder: FormBuilder) { }
+
+//   ngOnInit(): void {
+//     this.accountForm = this.formBuilder.group({
+//       accountId: [null, [Validators.required]],
+//       customerId: [null],
+//       balance: [null, [Validators.min(0)]],
+//     });
+//   }
+
+//   onSubmit(): void {
+//     if (this.accountForm.invalid) {
+//       this.errorMessage = "Please fill out all required fields correctly.";
+//       return;
+//     }
+//     this.successMessage = "Account created successfully";
+//     this.errorMessage = "";
+//   }
+
+//   loadCustomers(): void { }
+// }
+
+// --------------------- Below Day 23 ------------------------------
+
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { BankService } from "../../services/bank.service";
 
 @Component({
   selector: "app-account",
@@ -106,24 +145,34 @@ export class AccountComponent implements OnInit {
   errorMessage: string = "";
   customers: any[] = [];
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private bankService: BankService
+  ) { }
 
   ngOnInit(): void {
     this.accountForm = this.formBuilder.group({
-      accountId: [null, [Validators.required]],
-      customerId: [null],
+      customer: [null, [Validators.required]],
       balance: [null, [Validators.min(0)]],
+    });
+    this.loadCustomers();
+  }
+
+  loadCustomers(): void {
+    this.bankService.getAllCustomers().subscribe((customers: any[]) => {
+      this.customers = customers;
     });
   }
 
   onSubmit(): void {
     if (this.accountForm.invalid) {
       this.errorMessage = "Please fill out all required fields correctly.";
+      this.successMessage = "";
       return;
     }
-    this.successMessage = "Account created successfully";
-    this.errorMessage = "";
+    this.bankService.addAccount(this.accountForm.value).subscribe(() => {
+      this.successMessage = "Account created successfully";
+      this.errorMessage = "";
+    });
   }
-
-  loadCustomers(): void { }
 }
