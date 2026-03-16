@@ -1,118 +1,173 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BankService } from '../../services/bank.service';
-import { Observable, Subscribable, map, of } from 'rxjs';
-import { Account } from '../../types/Account';
-import { Customer } from '../../types/Customer';
-import { ActivatedRoute } from '@angular/router';
+// import { Component, OnInit } from '@angular/core';
+// import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+// import { BankService } from '../../services/bank.service';
+// import { Observable, Subscribable, map, of } from 'rxjs';
+// import { Account } from '../../types/Account';
+// import { Customer } from '../../types/Customer';
+// import { ActivatedRoute } from '@angular/router';
  
-@Component({
-  selector: 'app-account',
-  templateUrl: './accountedit.component.html',
-  styleUrls: ['./accountedit.component.scss']
-})
-export class EditAccountComponent implements OnInit {
-changedVal() {
-}
-  customers$: Observable<Customer[]>=of([] as Customer[]);
-  accountForm: FormGroup=this.formBuilder.group({});
-  account: Account | any;
-  customer: Customer|any;
-  isFormSubmitted: boolean = false;
-  selectedValue:string="";
+// @Component({
+//   selector: 'app-account',
+//   templateUrl: './accountedit.component.html',
+//   styleUrls: ['./accountedit.component.scss']
+// })
+// export class EditAccountComponent implements OnInit {
+// changedVal() {
+// }
+//   customers$: Observable<Customer[]>=of([] as Customer[]);
+//   accountForm: FormGroup=this.formBuilder.group({});
+//   account: Account | any;
+//   customer: Customer|any;
+//   isFormSubmitted: boolean = false;
+//   selectedValue:string="";
  
-accountError$:  Observable<string>=of("");
-accountSuccess$: Observable<string>=of("");
-;
+// accountError$:  Observable<string>=of("");
+// accountSuccess$: Observable<string>=of("");
+// ;
  
-  constructor(
-    private route: ActivatedRoute,
-    private formBuilder: FormBuilder,
-    private banksService: BankService
-  ) {
-    // this.customers$ = this.banksService.getCustomers();
-  }
+//   constructor(
+//     private route: ActivatedRoute,
+//     private formBuilder: FormBuilder,
+//     private banksService: BankService
+//   ) {
+//     // this.customers$ = this.banksService.getCustomers();
+//   }
  
-  ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      // Get the account data from the route parameter
-      this.account = new Account({
-        accountId: params['accountId'],
-        balance: params['balance'],
-        customer: {
-          customerId: params['customerId'],
-          name: params['name'],
-          username: params['username'],
-          password: params['password'],
-          email: params['email'],
-          role: params['role']
-        }
-      });
-      this.selectedValue=params['customerId'];
-      console.log('Selected Value:', this.selectedValue);
-      this.customers$ = this.banksService.getCustomers().pipe(
-        map((customers: Customer[]) => {
-          console.log('All Customers:', customers);
-          return customers.filter(customer => customer.customerId == this.selectedValue);
-        })
-      );
-      this.customers$.subscribe(filteredCustomers => console.log(filteredCustomers));
-      this.banksService.getCustomers().subscribe(customers => console.log(customers));
+//   ngOnInit(): void {
+//     this.route.params.subscribe(params => {
+//       // Get the account data from the route parameter
+//       this.account = new Account({
+//         accountId: params['accountId'],
+//         balance: params['balance'],
+//         customer: {
+//           customerId: params['customerId'],
+//           name: params['name'],
+//           username: params['username'],
+//           password: params['password'],
+//           email: params['email'],
+//           role: params['role']
+//         }
+//       });
+//       this.selectedValue=params['customerId'];
+//       console.log('Selected Value:', this.selectedValue);
+//       this.customers$ = this.banksService.getCustomers().pipe(
+//         map((customers: Customer[]) => {
+//           console.log('All Customers:', customers);
+//           return customers.filter(customer => customer.customerId == this.selectedValue);
+//         })
+//       );
+//       this.customers$.subscribe(filteredCustomers => console.log(filteredCustomers));
+//       this.banksService.getCustomers().subscribe(customers => console.log(customers));
  
-      this.customer= new Customer({
-      customerId: params['customerId'],
-      name: params['name'],
-      username: params['username'],
-      password: params['password'],
-      email: params['email'],
-      role: params['role']
-    });
-    this.selectedValue=params['customerId'];
-    this.accountForm = this.formBuilder.group({
-      customer: [null, [Validators.required]],
-      balance: [this.account?.balance || "", [Validators.required]],
-      accountId: [this.account?.accountId || "", [Validators.required]],
-    });
+//       this.customer= new Customer({
+//       customerId: params['customerId'],
+//       name: params['name'],
+//       username: params['username'],
+//       password: params['password'],
+//       email: params['email'],
+//       role: params['role']
+//     });
+//     this.selectedValue=params['customerId'];
+//     this.accountForm = this.formBuilder.group({
+//       customer: [null, [Validators.required]],
+//       balance: [this.account?.balance || "", [Validators.required]],
+//       accountId: [this.account?.accountId || "", [Validators.required]],
+//     });
  
     
       
-      // Initialize the customer based on the retrieved data
-      this.customer = this.account.customer;
-      console.log(this.selectedValue);
-      // Update the form values based on the retrieved data
-      // this.accountForm.patchValue({
-      //   customer: this.customer,
-      //   balance: this.account.balance,
-      //   accountId: this.account.accountId
-      // });
-    });
-  }
+//       // Initialize the customer based on the retrieved data
+//       this.customer = this.account.customer;
+//       console.log(this.selectedValue);
+//       // Update the form values based on the retrieved data
+//       // this.accountForm.patchValue({
+//       //   customer: this.customer,
+//       //   balance: this.account.balance,
+//       //   accountId: this.account.accountId
+//       // });
+//     });
+//   }
   
  
-  onSubmit() {
-    this.isFormSubmitted = true;
+//   onSubmit() {
+//     this.isFormSubmitted = true;
  
+//     if (this.accountForm.invalid) {
+//       return;
+//     }
+ 
+//     const formData = this.accountForm.value;
+//     const editedAccount: Account = new Account({
+//       accountId: formData.accountId,
+//       balance: formData.balance,
+//       customer: formData.customer
+//     });
+ 
+//     this.banksService.editAccount(editedAccount).subscribe(
+//       () => {
+//         // Handle success
+//         console.log("Account updated successfully");
+//         this.accountSuccess$= of("Account updated successfully");
+//       },
+//       (error) => {
+//         // Handle error
+//         console.error("Unable to update account", error);
+//       }
+//     );
+//   }
+// }
+
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
+import { BankService } from "../../services/bank.service";
+
+@Component({
+  selector: "app-accountedit",
+  templateUrl: "./accountedit.component.html",
+})
+export class EditAccountComponent implements OnInit {
+  accountForm: FormGroup = this.formBuilder.group({});
+  account: any;
+  successMessage: string = "";
+  errorMessage: string = "";
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private bankService: BankService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.accountForm = this.formBuilder.group({
+      customer: [null, [Validators.required]],
+      balance:  [null, [Validators.min(0)]],
+    });
+
+    this.route.params.subscribe((params: any) => {
+      const accountId = params['accountId'];
+      if (accountId) {
+        this.bankService.getAccountById(accountId).subscribe((data: any) => {
+          this.account = data;
+          this.accountForm.patchValue({
+            customer: data.customer?.customerId,
+            balance:  data.balance,
+          });
+        });
+      }
+    });
+  }
+
+  onSubmit(): void {
     if (this.accountForm.invalid) {
+      this.errorMessage = "Please fill out all required fields correctly.";
       return;
     }
- 
-    const formData = this.accountForm.value;
-    const editedAccount: Account = new Account({
-      accountId: formData.accountId,
-      balance: formData.balance,
-      customer: formData.customer
-    });
- 
-    this.banksService.editAccount(editedAccount).subscribe(
-      () => {
-        // Handle success
-        console.log("Account updated successfully");
-        this.accountSuccess$= of("Account updated successfully");
-      },
-      (error) => {
-        // Handle error
-        console.error("Unable to update account", error);
-      }
-    );
+    this.bankService.editAccount({ ...this.account, ...this.accountForm.value })
+      .subscribe(() => {
+        this.successMessage = "Account updated successfully";
+        this.router.navigate(['/bank']);
+      });
   }
 }

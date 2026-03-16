@@ -1,4 +1,4 @@
-
+<!-- 
 <app-navbar></app-navbar>
 
 <form (ngSubmit)="onSubmit()" [formGroup]="customerForm" class="user-form">
@@ -72,4 +72,34 @@
   </ng-container>
 
   <a routerLink="/bank" class="task-list" class="task-list">Dashboard</a>
+</form> -->
+
+<form (ngSubmit)="onSubmit()" [formGroup]="customerForm" class="user-form">
+   <div class="form-group">
+     <label for="name">Name:</label>
+     <input type="text" id="name" formControlName="name" class="form-control" />
+     </div>
+   <div class="form-group">
+     <label for="email">Email:</label>
+     <input type="email" id="email" formControlName="email" class="form-control" />
+     </div>
+   <div class="form-group">
+     <label for="username">Username:</label>
+     <input type="text" id="username" formControlName="username" class="form-control" />
+     </div>
+   <div class="form-group">
+     <label for="password">Password:</label>
+     <input type="password" id="password" formControlName="password" class="form-control" />
+     </div>
+   <div class="form-group">
+     <label for="role">Role:</label>
+     <select id="role" formControlName="role" class="form-control">
+       <option value="USER">User</option>
+       <option value="ADMIN">Admin</option>
+       </select>
+     </div>
+   <button type="submit" class="btn-submit">Update Customer</button>
+   <div *ngIf="customerError" class="error">{{ customerError }}</div>
+   <div *ngIf="customerSuccess" class="success">{{ customerSuccess }}</div>
+   <a routerLink="/bank" class="task-list">Dashboard</a>
 </form>
