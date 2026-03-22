@@ -54,7 +54,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public List<Accounts> getAccountsByUser(int userId) throws SQLException{
-        return accountDAO.getAllAccounts();
+        return accountDAO.getAllAccountsByCustomer(userId);
     }
 
 }

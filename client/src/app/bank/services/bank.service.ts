@@ -9,7 +9,8 @@ import { Customer } from "../types/Customer";
   providedIn: "root",
 })
 export class BankService {
-  private baseUrl = `${environment.apiUrl}`;
+  // private baseUrl = `${environment.apiUrl}`;
+  private baseUrl="https://orchardsolveone.lntedutech.com/project/8130/proxy/3000/"
 
   private authHeaders(): HeadersInit {
     return {
@@ -103,7 +104,7 @@ export class BankService {
   }
 
   editAccount(account: Account): Observable<Account> {
-    return this.put<Account>(`/accounts/${account.customer?.customerId}`, account);
+    return this.put<Account>(`/accounts/${account.accountId}`, account);
   }
 
 

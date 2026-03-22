@@ -21,15 +21,15 @@ export class TransactionComponent implements OnInit {
     private formBuilder: FormBuilder,
     private bankService: BankService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.role = localStorage.getItem("role");
     this.userId = localStorage.getItem("user_id");
 
     this.transactionForm = this.formBuilder.group({
-      accounts:        [null, [Validators.required]],
-      amount:          [null, [Validators.required, Validators.min(0)]],
+      accounts: [null, [Validators.required]],
+      amount: [null, [Validators.required, Validators.min(0)]],
       transactionType: [null, [Validators.required]],
     });
 
@@ -38,20 +38,25 @@ export class TransactionComponent implements OnInit {
         this.accounts = data;
       });
     }
+    else {
+      this.bankService.getAllAccounts().subscribe(data => this.accounts = data);
+    }
   }
 
   onSubmit(): void {
     this.isFormSubmitted = true;
-
-    if (this.transactionForm.invalid) {
-      // leave transactionError and transactionSuccess as undefined
-      return;
-    }
+    if (this.transactionForm.invalid) return;
 
     this.transactionError = "";
     this.transactionSuccess = "";
 
-    this.bankService.performTransaction(this.transactionForm.value).subscribe(
+    const payload: any = {
+      accounts: { accountId: this.transactionForm.value.accounts },
+      amount: this.transactionForm.value.amount,
+      transactionType: this.transactionForm.value.transactionType
+    };
+
+    this.bankService.performTransaction(payload).subscribe(
       () => {
         this.transactionSuccess = "Transaction performed successfully";
         this.transactionError = "";

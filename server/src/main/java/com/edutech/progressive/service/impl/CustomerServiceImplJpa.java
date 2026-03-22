@@ -78,7 +78,7 @@ public class CustomerServiceImplJpa implements CustomerService {
         }
         // Fetch the existing record to compare password
         Customers existingCustomer = customerRepository.findByCustomerId(customers.getCustomerId());
-        if (existingCustomer != null && !existingCustomer.getPassword().equals(customers.getPassword())) {
+        if (existingCustomer != null && !passwordEncoder.matches(customers.getPassword(),existingCustomer.getPassword())) {
             customers.setPassword(passwordEncoder.encode(customers.getPassword()));
         }
         customerRepository.save(customers);

@@ -1,72 +1,100 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { BankService } from '../../services/bank.service';
+import { Customer } from '../../types/Customer';
+import { Observable, of } from 'rxjs';
+import { Account } from '../../types/Account';
+import { Transaction } from '../../types/Transaction';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
-})
+})   
 export class DashboardComponent implements OnInit {
-  customers: any[] = [];
-  accounts: any[] = [];
-  transactions: any[] = [];
-  role: string | null = "";
-
-  constructor(private bankService: BankService, private router: Router) {}
+  customers$: Observable<Customer[]>=of([]);
+  accounts$: Observable<Account[]>=of([])
+  transactions$: Observable<Transaction[]>=of([])
+  role :String| null="";
+  userRole:string="";
+  userId:number=0;
+  constructor(private bankService: BankService,private router: Router) { }
 
   ngOnInit(): void {
     this.role = localStorage.getItem("role");
-    if (this.role === 'ADMIN') {
-      this.loadAdminData();
-    } else {
-      this.loadUserData();
+      const strUserId =localStorage.getItem("user_id");
+      this.customers$ = this.bankService.getCustomers();
+    
+    console.log(this.customers$);
+    // this.userRole = localStorage.getItem('role');
+    if(this.role=='USER'){
+      this.accounts$ = this.bankService.getAccountsByUser(strUserId);
+      
+    this.transactions$ = this.bankService.getTransactionByUser(strUserId);
+    
+    } else{
+      this.accounts$ = this.bankService.getAccounts();
+      console.log(this.accounts$);
+      this.transactions$ = this.bankService.getAllTranactions();
+    
+    }
+  
+  }
+
+  deteteCustomer(customer:any):void{
+   // alert(customer.customerId);
+    let conf = confirm("Do You Really Want To Delete Customer");
+    if(conf)
+    {
+      this.bankService.deleteCustomer(customer.customerId).subscribe(
+        () => {
+          alert('Customer deleted successfully.');
+
+          // Remove the deleted customer from the local array
+         this.customers$ = this.bankService.getCustomers();
+        },
+        (error) => {
+          console.error('Error deleting customer:', error);
+          // Handle error, show a message, etc.
+        }
+      );
     }
   }
 
-  loadAdminData(): void {
-    this.bankService.getAllCustomers().subscribe((data: any[]) => {
-      this.customers = data;
-    });
-    this.bankService.getAllAccounts().subscribe((data: any[]) => {
-      this.accounts = data;
-    });
-    this.bankService.getAllTranactions().subscribe((data: any[]) => {
-      this.transactions = data;
-    });
+  editCustomer(customer:Customer):void{
+    this.router.navigate(['/bank/customer/edit', { customerId: customer.customerId,name:customer.name,email:customer.email,username:customer.username, password:customer.password,role:customer.role }]);
+
   }
 
-  loadUserData(): void {
-    const userId = localStorage.getItem("user_id");
-    this.bankService.getAccountsByUser(userId).subscribe((data: any[]) => {
-      this.accounts = data;
-    });
-    this.bankService.getAllTransactionsByCustomerId(userId).subscribe((data: any[]) => {
-      this.transactions = data;
-    });
-  }
+  deteteAccount(account:any):void{
+    // alert(customer.customerId);
+     let conf = confirm("Do You Really Want To Delete Customer");
+     if(conf)
+     {
+       this.bankService.deleteAccount(account.accountId).subscribe(
+         () => {
+           alert('Account deleted successfully.');
+ 
+           // Remove the deleted customer from the local array
+          this.accounts$ = this.bankService.getAccounts();
+         },
+         (error) => {
+           console.error('Error deleting customer:', error);
+           // Handle error, show a message, etc.
+         }
+       );
+     }
+   }
+ 
+   
+   editAccount(account:any):void{
+    console.log(account);
+     this.router.navigate(['/bank/account/edit', { accountId: account.accountId,balance:account.balance,customerId:account.customer.customerId,
+      name:account.customer.name,username:account.customer.username,password:account.customer.pasword,email:account.customer.email,role:account.customer.role
+    }]);
+ 
+     //return null;
+   }
 
-  deleteCustomer(customerId: number): void {
-    if (confirm("Do You Really Want To Delete Customer")) {
-      this.bankService.deleteCustomer(customerId).subscribe(() => {
-        this.loadAdminData();
-      });
-    }
-  }
-
-  deleteAccount(accountId: number): void {
-    if (confirm("Do You Really Want To Delete Account")) {
-      this.bankService.deleteAccount(accountId).subscribe(() => {
-        this.loadAdminData();
-      });
-    }
-  }
-
-  editCustomer(customer: any): void {
-    this.router.navigate(['/bank/customer/edit', { customerId: customer.customerId }]);
-  }
-
-  editAccount(account: any): void {
-    this.router.navigate(['/bank/account/edit', { accountId: account.accountId }]);
-  }
 }

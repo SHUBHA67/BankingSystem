@@ -133,6 +133,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { BankService } from "../../services/bank.service";
+import { Customer } from "../../types/Customer";
 
 @Component({
   selector: "app-account",
@@ -143,7 +144,7 @@ export class AccountComponent implements OnInit {
   accountForm: FormGroup = this.formBuilder.group({});
   successMessage: string = "";
   errorMessage: string = "";
-  customers: any[] = [];
+  customers: Customer[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -170,7 +171,13 @@ export class AccountComponent implements OnInit {
       this.successMessage = "";
       return;
     }
-    this.bankService.addAccount(this.accountForm.value).subscribe(() => {
+
+    const payload :any= {
+      customer: { customerId: this.accountForm.value.customer },
+      balance: this.accountForm.value.balance
+    };
+
+    this.bankService.addAccount(payload).subscribe(() => {
       this.successMessage = "Account created successfully";
       this.errorMessage = "";
     });

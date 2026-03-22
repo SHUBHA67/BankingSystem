@@ -1,5 +1,6 @@
 package com.edutech.progressive.service;
 
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -73,8 +74,9 @@ public class CustomerLoginService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found: " + username);
         }
+
         return new org.springframework.security.core.userdetails.User(
-                user.getUsername(), user.getPassword(), new ArrayList<>());
+                user.getUsername(), user.getPassword(),AuthorityUtils.createAuthorityList(user.getRole()));
     }
 }
 // public class CustomerLoginService implements UserDetailsService {
