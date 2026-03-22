@@ -53,7 +53,8 @@ export class TransactionComponent implements OnInit {
     const payload: any = {
       accounts: { accountId: this.transactionForm.value.accounts },
       amount: this.transactionForm.value.amount,
-      transactionType: this.transactionForm.value.transactionType
+      transactionType: this.transactionForm.value.transactionType,
+      transactionDate:new Date()
     };
 
     this.bankService.performTransaction(payload).subscribe(

@@ -88,7 +88,7 @@ export class BankService {
   }
 
   getTransactionByUser(userId: string | null): Observable<Transaction[]> {
-    return this.get<Transaction[]>(`/transactions/customer/${userId}`);
+    return this.get<Transaction[]>(`/transactions/user/${userId}`);
   }
 
   deleteCustomer(customerId: number): Observable<any> {
