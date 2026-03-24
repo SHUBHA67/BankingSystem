@@ -22,12 +22,7 @@
         private CustomerServiceImplArraylist customerServiceArraylist;
 
         
-        // @Autowired
-        // public CustomerController(CustomerServiceImplJpa customerServiceJpa,
-        //         CustomerServiceImplArraylist customerServiceArraylist) {
-        //     this.customerServiceJpa = customerServiceJpa;
-        //     this.customerServiceArraylist = customerServiceArraylist;
-        // }
+
 
         @GetMapping
         public ResponseEntity<List<Customers>> getAllCustomers() {
@@ -37,7 +32,7 @@
             } catch (SQLException e) {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
-            // return null;
+            
         }
 
         @GetMapping("/{customerId}")
@@ -52,7 +47,7 @@
             } catch (SQLException e) {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
-            // return null;
+           
         }
 
         @PostMapping
@@ -63,10 +58,6 @@
             } catch (SQLException e) {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
-            //  catch (SQLException e) {
-            //     return new ResponseEntity<>("Unable to process your request at the moment", HttpStatus.INTERNAL_SERVER_ERROR);
-            // }
-            //return null;
         }
 
         @PutMapping("/{customerId}")
@@ -78,9 +69,7 @@
             } catch (SQLException e) {
                 return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
             } 
-            // catch (SQLException e) {
-            //     return new ResponseEntity<>("Unable to process your request at the moment", HttpStatus.INTERNAL_SERVER_ERROR);
-            // }
+
             
         }
 
