@@ -1,44 +1,55 @@
+<div class="login-container">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+    
+    <h2 class="title">Welcome Back 👋</h2>
+    <p class="subtitle">Login to your account</p>
 
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
-    <label>
-      Username:
-      <input type="text" formControlName="username" />
+    <!-- Username -->
+    <div class="form-group">
+      <input type="text" formControlName="username" required />
+      <label>Username</label>
+
       <p
         class="error"
         *ngIf="
-          loginForm.controls['username']['touched'] &&
-          loginForm.controls['username'].errors &&
-          loginForm.controls['username'].errors['required']
+          loginForm.controls['username'].touched &&
+          loginForm.controls['username'].errors?.['required']
         "
       >
-      Username is required
+        Username is required
       </p>
-    </label>
-  
-    <label>
-      Password:
-      <input type="password" formControlName="password" />
+    </div>
+
+    <!-- Password -->
+    <div class="form-group">
+      <input type="password" formControlName="password" required />
+      <label>Password</label>
+
       <p
         class="error"
         *ngIf="
-          loginForm.controls['password']['touched'] &&
-          loginForm.controls['password'].errors &&
-          loginForm.controls['password'].errors['required']
+          loginForm.controls['password'].touched &&
+          loginForm.controls['password'].errors?.['required']
         "
       >
         Password is required
       </p>
-    </label>
-  
-   
-  
-    <button type="submit">Log in</button>
-      <a routerLink="/auth/add-user" class="task-list">Sign up</a
-    >
-  
-    <div *ngIf="loginError$ | async as error" class="error">
+    </div>
+
+    <!-- Button -->
+    <button type="submit" [disabled]="loginForm.invalid">
+      Log In
+    </button>
+
+    <!-- Signup -->
+    <a routerLink="/auth/add-user" class="task-list">
+      Don’t have an account? Sign up
+    </a>
+
+    <!-- Error -->
+    <div *ngIf="loginError$ | async as error" class="error-message">
       {{ error['message'] }}
     </div>
-  </form>
 
-  
+  </form>
+</div>

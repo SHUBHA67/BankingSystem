@@ -10,7 +10,7 @@ import { Customer } from "../types/Customer";
 })
 export class BankService {
   // private baseUrl = `${environment.apiUrl}`;
-  private baseUrl="https://orchardsolveone.lntedutech.com/project/8130/proxy/3000/"
+  private baseUrl="https://orchardsolveone.lntedutech.com/project/8097/proxy/3000/"
 
   private authHeaders(): HeadersInit {
     return {

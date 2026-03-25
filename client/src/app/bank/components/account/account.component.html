@@ -1,23 +1,45 @@
 <app-navbar></app-navbar>
 
-<form (ngSubmit)="onSubmit()" [formGroup]="accountForm" class="user-form">
-  <div class="form-group">
-    <label for="customer">Customer:</label>
-    <select id="customer" formControlName="customer">
-      <option value="">Select a Customer</option>
-      <option *ngFor="let customer of customers" [ngValue]="customer.customerId">
-        {{ customer.name }}
-        </option>
-      </select>
-    </div>
-  <div class="form-group">
-    <label for="balance">Balance:</label>
-    <input type="text" id="balance" formControlName="balance" class="form-control" />
-    </div>
-  <button type="submit" class="btn-submit">Create Account</button>
-  <ng-container>
-    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
-    <div *ngIf="successMessage" class="success">{{ successMessage }}</div>
-    </ng-container>
-  <a routerLink="/bank" class="task-list">Dashboard</a>
-</form>
+<div class="account-container">
+
+  <div class="card">
+
+    <h2 class="title">Create Account 💳</h2>
+    <p class="subtitle">Add a new bank account</p>
+
+    <form (ngSubmit)="onSubmit()" [formGroup]="accountForm">
+
+      <!-- Customer -->
+      <div class="form-group">
+        <select formControlName="customer" required>
+          <option value="" disabled selected>Select Customer</option>
+          <option *ngFor="let customer of customers" [ngValue]="customer.customerId">
+            {{ customer.name }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Balance -->
+      <div class="form-group">
+        <input type="number" formControlName="balance" required />
+        <label>Initial Balance</label>
+      </div>
+
+      <!-- Button -->
+      <button type="submit" [disabled]="accountForm.invalid">
+        Create Account
+      </button>
+
+      <!-- Messages -->
+      <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+      <div *ngIf="successMessage" class="success">{{ successMessage }}</div>
+
+      <!-- Link -->
+      <a routerLink="/bank" class="task-link">
+        Back to Dashboard
+      </a>
+
+    </form>
+
+  </div>
+</div>

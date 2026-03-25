@@ -1,138 +1,141 @@
-
-/* Your regular styles go here */
-
-body {
-  margin: 0;
-  padding: 0;
+/* Background */
+.register-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  font-family: 'Segoe UI', sans-serif;
 }
 
-.container {
-  width: 100%;
-  margin: 0;
-}
-
-.row::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
-
-/* Define styles for specific column sizes */
-.col-1 {
-  width: 8.33%;
-}
-.col-2 {
-  width: 16.67%;
-}
-.col-3 {
-  width: 25%;
-}
-.col-4 {
-  width: 33.33%;
-}
-.col-5 {
-  width: 41.67%;
-}
-.col-6 {
-  width: 50%;
-}
-.col-7 {
-  width: 58.33%;
-}
-.col-8 {
-  width: 66.67%;
-}
-.col-9 {
-  width: 75%;
-}
-.col-10 {
-  width: 83.33%;
-}
-.col-11 {
-  width: 91.67%;
-}
-.col-12 {
-  width: 100%;
-}
-
+/* Card */
 .card {
-  margin: 0;
-  box-shadow: none;
-  border: 1px solid #ddd; /* Add a border for better visibility */
+  width: 100%;
+  max-width: 420px;
+  padding: 30px;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+  animation: fadeIn 0.4s ease-in-out;
 }
 
-.card-body {
-  padding: 10px;
+/* Title */
+.title {
+  text-align: center;
+  margin-bottom: 5px;
+  color: #333;
 }
 
-.card-title {
-  font-size: 18px;
-}
-
-.card-text {
+.subtitle {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #777;
   font-size: 14px;
 }
 
-/* You can further customize styles as needed for print */
-
-.user-form {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #f4f4f4;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
+/* Form */
 .form-group {
+  position: relative;
   margin-bottom: 20px;
 }
 
-label {
-  display: block;
-  font-weight: bold;
+/* Inputs */
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 12px 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  font-size: 14px;
+  transition: 0.3s;
 }
 
-input[type="text"],
-input[type="password"],
-select {
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+/* Focus */
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 6px rgba(102, 126, 234, 0.5);
 }
 
-button.btn-submit {
-  display: block;
+/* Floating label */
+.form-group label {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  color: #999;
+  font-size: 13px;
+  transform: translateY(-50%);
+  background: #fff;
+  padding: 0 5px;
+  transition: 0.3s;
+  pointer-events: none;
+}
+
+.form-group input:focus + label,
+.form-group input:valid + label {
+  top: -8px;
+  font-size: 11px;
+  color: #667eea;
+}
+
+/* Button */
+button {
   width: 100%;
-  padding: 10px 0;
-  margin-top: 10px;
-  color: #fff;
-  background-color: #007bff;
+  padding: 12px;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  font-size: 16px;
   cursor: pointer;
+  transition: 0.3s;
 }
 
-a.task-list {
-  display: block;
-  margin-top: 20px;
-  text-align: center;
-  text-decoration: none;
-  color: #007bff;
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
 }
 
-a.task-list:hover {
-  text-decoration: underline;
+button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
 }
 
+/* Messages */
 .error {
   margin-top: 10px;
-  color: #dc3545;
+  color: #e74c3c;
+  text-align: center;
 }
 
 .success {
   margin-top: 10px;
-  color: #28a745;
+  color: #2ecc71;
+  text-align: center;
+}
+
+/* Link */
+.task-link {
+  display: block;
+  margin-top: 15px;
+  text-align: center;
+  color: #667eea;
+  text-decoration: none;
+}
+
+.task-link:hover {
+  text-decoration: underline;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
